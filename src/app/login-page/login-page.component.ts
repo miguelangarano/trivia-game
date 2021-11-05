@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 
 @Component({
@@ -8,15 +9,33 @@ import { UserService } from '../user.service';
 })
 export class LoginPageComponent implements OnInit {
     userService: UserService
-    constructor(userService: UserService) { this.userService = userService }
+    router: Router
+    constructor(userService: UserService, router: Router) {
+        this.userService = userService
+        this.router = router
+    }
 
-    ngOnInit(): void {
+    ngOnInit() {
+        this.isLoggedIn()
     }
 
     userName = ""
 
     onUserNameCreate() {
+        if (this.userName === "") {
+            alert("El nombre no debe estar vacío.")
+            return
+        }
         this.userService.createUserName(this.userName)
+        this.router.navigateByUrl('/game');
+    }
+
+    isLoggedIn() {
+        const userName = localStorage.getItem("userName")
+        if (userName != null) {
+            this.userService.createUserName(userName)
+            this.router.navigateByUrl('/game')
+        }
     }
 
 }

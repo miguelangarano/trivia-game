@@ -12,6 +12,7 @@ export class UserService {
     createUserName(name: string) {
         this.userName = name
         console.log("Aqui cambio", this.userName)
+        localStorage.setItem("userName", this.userName)
     }
 
 }
